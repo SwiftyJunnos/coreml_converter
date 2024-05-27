@@ -50,10 +50,10 @@ packages:
   size: 155725
   timestamp: 1706844034242
 - kind: pypi
-  name: converter
+  name: coreml-converter
   version: 0.1.0
   path: .
-  sha256: ed2a6c6823b9ae87329d0ffd7ca497f496837557285111b6d404b122b57c16e0
+  sha256: eb8f8da1b33dea3a632e16f389cdcce836a943ce4ccfcd5c42bfd0ed532fa60e
   requires_python: '>=3.11'
   editable: true
 - kind: conda

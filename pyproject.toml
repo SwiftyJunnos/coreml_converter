@@ -1,5 +1,5 @@
 [project]
-name = "converter"
+name = "coreml_converter"
 version = "0.1.0"
 description = "Add a short description here"
 authors = [{ name = "Junnos", email = "junnos.dev@gmail.com" }]
@@ -18,7 +18,7 @@ platforms = ["osx-arm64"]
 converter = { path = ".", editable = true }
 
 [tool.pixi.tasks]
-convert = "python -m converter"
+convert = "python -m coreml_converter"
 
 [tool.pixi.dependencies]
 python = "<=3.11.9"

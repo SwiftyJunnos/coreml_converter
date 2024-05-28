@@ -12,10 +12,13 @@ build-backend = "setuptools.build_meta"
 
 [tool.pixi.project]
 channels = ["conda-forge"]
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "linux-64"]
 
 [tool.pixi.pypi-dependencies]
 converter = { path = ".", editable = true }
+
+[tool.pixi.system-requirements]
+linux = "5.4.0"
 
 [tool.pixi.tasks]
 convert = "python -m coreml_converter"

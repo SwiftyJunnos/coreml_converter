@@ -1,4 +1,5 @@
-from typing import Any, Optional
+import logging
+from typing import Optional
 
 import coremltools as ct
 import torch

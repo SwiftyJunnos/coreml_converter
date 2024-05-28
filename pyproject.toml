@@ -23,3 +23,10 @@ convert = "python -m coreml_converter"
 [tool.pixi.dependencies]
 python = "<=3.11.9"
 pip = ">=24.0,<25"
+transformers = ">=4.41.1,<4.42"
+tqdm = ">=4.66.4,<4.67"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["coreml_converter"]
+exclude = ["weights"]

@@ -3,6 +3,9 @@
 # weights
 weights/*
 
+# results
+*.mlpackage
+
 # pixi environments
 .pixi
 *.egg-info

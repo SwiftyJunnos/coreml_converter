@@ -5,7 +5,7 @@ import os
 import torch
 import torch.nn as nn
 
-from .const import RESULT_DIR, _MLPACKAGE_EXTENSION
+from .const import RESULT_DIR
 from .converter import Converter
 from .loader import load_weight
 from .models.models import Models
@@ -52,18 +52,16 @@ def run(runtime_config: RuntimeConfig) -> int:
         example_inputs = model.example_inputs(input_size)
 
         # Convert weight-summed model to MLProgram type.
-        program = converter.convert(weighted_model, **example_inputs)
-        if program is None:
-            _LOGGER.error(f"Failed to convert {model.value} to MLProgram.")
+        ml_model, ext = converter.convert(weighted_model, **example_inputs)
+        if ml_model is None:
+            _LOGGER.error(f"Failed to convert {model.value} to CoreML compatible model.")
             continue
-        else:
-            _LOGGER.info(f"Success to convert {model.value} to MLProgram.")
 
         # Optimize for mobile environment.
 
         # Save converted model as ".mlpackage" file.
-        result_path = os.path.join(RESULT_DIR, model.value) + _MLPACKAGE_EXTENSION
+        result_path = os.path.join(RESULT_DIR, model.value.lower()) + ext
         _LOGGER.info(f"Saving result to {result_path}")
-        program.save(result_path)  # type: ignore
+        ml_model.save(result_path)  # type: ignore
 
     return 1

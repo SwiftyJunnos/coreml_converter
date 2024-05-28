@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 
 from .const import RESULT_DIR, _MLPACKAGE_EXTENSION
-from .convert import Converter
+from .converter import Converter
 from .loader import load_weight
 from .models.models import Models
 

@@ -29,7 +29,7 @@ class Converter:
             model=traced_model,
             source="pytorch",
             convert_to="mlprogram",
-            inputs=[ct.TensorType(shape=example_values[0].shape)],
+            inputs=[ ct.TensorType(shape=m.shape) for m in example_values ],
             compute_precision=ct.precision.FLOAT32,
             minimum_deployment_target=ct.target.iOS15,
         )

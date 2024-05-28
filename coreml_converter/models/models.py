@@ -39,17 +39,17 @@ class Models(StrEnum):
             raise ValueError("Invalid case for enum `Models`.")
 
     def example_inputs(self, input_size: torch.Size) -> dict[str, torch.Tensor]:
-        # input_size: (32000, 512)
-        if self == Models.INTENT:
-            _input_size = (input_size[0], input_size[-1] * 3)
+        # input_size: (batch_size, 512)
+        if self is Models.INTENT:
+            _input_size = (input_size[0], input_size[1] * 3)
             return {
                 "input_ids": torch.rand(_input_size).to(torch.int64),
-                "attention_mask": torch.zeros(_input_size).to(torch.int64)
+                "attention_mask": torch.zeros(_input_size).to(torch.int64),
             }
         elif self == Models.KEYWORD:
             return {
                 "input_ids": torch.rand(input_size),
-                "attention_mask": torch.Tensor(input_size[-1])
+                "attention_mask": torch.Tensor(input_size[-1]),
             }
         elif self == Models.GSTEP:
             return {
@@ -58,7 +58,7 @@ class Models(StrEnum):
                 "intent_input_ids": torch.rand(input_size),
                 "intent_attention_mask": torch.Tensor(input_size[-1]),
                 "keyword_input_ids": torch.rand(input_size),
-                "keyword_attention_mask": torch.Tensor(input_size[-1])
+                "keyword_attention_mask": torch.Tensor(input_size[-1]),
             }
         else:
             raise ValueError("Invalid case for enum `Models`.")

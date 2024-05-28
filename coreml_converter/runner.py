@@ -1,7 +1,6 @@
 import dataclasses
 import logging
 import os
-from typing import Any
 
 import torch
 import torch.nn as nn
@@ -27,7 +26,7 @@ def _weight_path(runtime_config: RuntimeConfig, filename: str) -> str:
 
 def _input_size(model: nn.Module) -> torch.Size:
     param = next(model.parameters())
-    return param.shape
+    return torch.Size((1, param.size(-1)))
 
 
 def run(runtime_config: RuntimeConfig) -> int:

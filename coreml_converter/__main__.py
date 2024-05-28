@@ -40,7 +40,7 @@ def main():
     runner.run(runtime_config=runtime_conf)
 
 
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG)
 
 if __name__ == "__main__":
     main()

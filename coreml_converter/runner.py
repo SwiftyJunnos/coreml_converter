@@ -64,7 +64,7 @@ def run(runtime_config: RuntimeConfig) -> int:
 
         # Save converted model as ".mlpackage" file.
         result_path = os.path.join(RESULT_DIR, model.value) + _MLPACKAGE_EXTENSION
-        print(result_path)
+        _LOGGER.info(f"Saving result to {result_path}")
         program.save(result_path)  # type: ignore
 
     return 1

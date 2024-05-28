@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from transformers import RobertaConfig, RobertaTokenizerFast
 
-from .constants import G_STEP_NUM_LABEL, KEYWORD_NUM_LABEL, INTENT_NUM_LABEL, MODEL_URL
+from .const import G_STEP_NUM_LABEL, KEYWORD_NUM_LABEL, INTENT_NUM_LABEL, MODEL_URL
 from .available_models import IntentModel, KeywordModel, GStepModel
 
 

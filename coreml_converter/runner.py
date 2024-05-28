@@ -12,7 +12,6 @@ from .loader import load_weight
 from .models.models import Models
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.INFO)
 
 
 @dataclasses.dataclass
@@ -34,11 +33,11 @@ def _input_size(model: nn.Module) -> torch.Size:
 def run(runtime_config: RuntimeConfig) -> int:
     """Run Converter."""
     _LOGGER.info("Start running converter...")
-    print("Starting converter...")
 
     converter = Converter()
 
     for model in Models:
+        _LOGGER.info(f"Start converting with model {model.value}")
         weight_path = _weight_path(runtime_config, model.value)
         weighted_model = load_weight(
             model=model.make_model(),
@@ -46,7 +45,7 @@ def run(runtime_config: RuntimeConfig) -> int:
             device=runtime_config.device,
         )
         if weighted_model is None:
-            print("Failed to load weight")
+            _LOGGER.error("Failed to load weight")
             continue
 
         # Prepare addtional args for convert.
@@ -57,10 +56,8 @@ def run(runtime_config: RuntimeConfig) -> int:
         program = converter.convert(weighted_model, **example_inputs)
         if program is None:
             _LOGGER.error(f"Failed to convert {model.value} to MLProgram.")
-            print("ERRRROR")
             continue
         else:
-            print("Passing...")
             _LOGGER.info(f"Success to convert {model.value} to MLProgram.")
 
         # Optimize for mobile environment.

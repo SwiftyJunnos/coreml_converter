@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 import torch
 
@@ -38,6 +39,8 @@ def main():
 
     runner.run(runtime_config=runtime_conf)
 
+
+logging.basicConfig()
 
 if __name__ == "__main__":
     main()

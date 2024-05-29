@@ -54,7 +54,9 @@ def run(runtime_config: RuntimeConfig) -> int:
         # Convert weight-summed model to MLProgram type.
         ml_model, ext = converter.convert(weighted_model, **example_inputs)
         if ml_model is None:
-            _LOGGER.error(f"Failed to convert {model.value} to CoreML compatible model.")
+            _LOGGER.error(
+                f"Failed to convert {model.value} to CoreML compatible model."
+            )
             continue
 
         # Optimize for mobile environment.

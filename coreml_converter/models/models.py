@@ -49,16 +49,16 @@ class Models(StrEnum):
         elif self == Models.KEYWORD:
             return {
                 "input_ids": torch.rand(input_size).to(torch.int64),
-                "attention_mask": torch.Tensor(input_size).to(torch.int64),
+                "attention_mask": torch.zeros(input_size).to(torch.int64),
             }
         elif self == Models.GSTEP:
             return {
                 "doc_input_ids": torch.rand(input_size).to(torch.int64),
-                "doc_attention_mask": torch.Tensor(input_size).to(torch.int64),
+                "doc_attention_mask": torch.zeros(input_size).to(torch.int64),
                 "intent_input_ids": torch.rand(input_size).to(torch.int64),
-                "intent_attention_mask": torch.Tensor(input_size).to(torch.int64),
+                "intent_attention_mask": torch.zeros(input_size).to(torch.int64),
                 "keyword_input_ids": torch.rand(input_size).to(torch.int64),
-                "keyword_attention_mask": torch.Tensor(input_size).to(torch.int64),
+                "keyword_attention_mask": torch.zeros(input_size).to(torch.int64),
             }
         else:
             raise ValueError("Invalid case for enum `Models`.")

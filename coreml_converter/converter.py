@@ -19,7 +19,7 @@ class Converter:
 
     def convert(
         self, model: nn.Module, **example_inputs: torch.Tensor
-    ) -> tuple[Optional[Program], str]:
+    ) -> tuple[Optional[Program | MLModel], str]:
         model.eval()
 
         example_values = tuple(example_inputs.values())

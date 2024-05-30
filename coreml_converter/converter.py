@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 from typing import Optional
 
 import coremltools as ct
@@ -22,15 +23,18 @@ class Converter:
     ) -> tuple[Optional[Program | MLModel], str]:
         model.eval()
 
-        example_values = tuple(example_inputs.values())
-        _LOGGER.info(f"Tracing: {example_values}")
-        traced_model = jit.trace(model, example_values)
+        _example_values = example_inputs.values()
+        _LOGGER.info(f"Tracing: {_example_values}")
+        traced_model = jit.trace(model, tuple(_example_values))
         _LOGGER.info("Tracing complete!")
 
         _LOGGER.info("Start converting...")
         converted_model = ct.convert(
             model=traced_model,
-            inputs=[ct.TensorType(shape=m.shape) for m in example_values],
+            inputs=[
+                ct.TensorType(name=m[0], shape=m[1].shape, dtype=np.int32)
+                for m in example_inputs.items()
+            ],
             minimum_deployment_target=ct.target.iOS15,
         )
 

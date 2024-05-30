@@ -19,7 +19,7 @@ class RuntimeConfig:
     device: torch.device
     weight_dir: str
     weight_ext: str = ".bin"
-    need_optimize: bool
+    need_optimize: bool = False
 
 
 def _weight_path(runtime_config: RuntimeConfig, filename: str) -> str:

@@ -22,6 +22,9 @@ linux = "5.4.0"
 
 [tool.pixi.tasks]
 convert = "python -m coreml_converter"
+c = { depends-on = ["convert"] }
+convert-with-optimization = "python -m coreml_converter -O"
+co = { depends-on = ["convert-with-optimization"] }
 
 [tool.pixi.dependencies]
 python = "<=3.11.9"

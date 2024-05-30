@@ -30,12 +30,12 @@ class Converter:
         _LOGGER.info("Start converting...")
         converted_model = ct.convert(
             model=traced_model,
-            inputs=[ ct.TensorType(shape=m.shape) for m in example_values ],
+            inputs=[ct.TensorType(shape=m.shape) for m in example_values],
             minimum_deployment_target=ct.target.iOS15,
         )
 
         if isinstance(converted_model, Program) or isinstance(converted_model, MLModel):
-            _LOGGER.info("Success to convert as \".mlpackage\".")
+            _LOGGER.info('Success to convert as ".mlpackage".')
             return (converted_model, _MLPACKAGE_EXTENSION)
         else:
             return (None, "")

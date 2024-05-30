@@ -9,6 +9,7 @@ from .const import RESULT_DIR
 from .converter import Converter
 from .loader import load_weight
 from .models.models import Models
+from .optimizer import quantize
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -18,6 +19,7 @@ class RuntimeConfig:
     device: torch.device
     weight_dir: str
     weight_ext: str = ".bin"
+    need_optimize: bool
 
 
 def _weight_path(runtime_config: RuntimeConfig, filename: str) -> str:
@@ -54,14 +56,21 @@ def run(runtime_config: RuntimeConfig) -> int:
         # Convert weight-summed model to MLProgram type.
         ml_model, ext = converter.convert(weighted_model, **example_inputs)
         if ml_model is None:
-            _LOGGER.error(f"Failed to convert {model.value} to CoreML compatible model.")
+            _LOGGER.error(
+                f"Failed to convert {model.value} to CoreML compatible model."
+            )
             continue
 
         # Optimize for mobile environment.
+        if runtime_config.need_optimize:
+            quantized_model = quantize(ml_model)
 
         # Save converted model as ".mlpackage" file.
-        result_path = os.path.join(RESULT_DIR, model.value.lower()) + ext
+        model_filename = (
+            "opt_" + model.value if runtime_config.need_optimize else model.value
+        )
+        result_path = os.path.join(RESULT_DIR, model_filename) + ext
         _LOGGER.info(f"Saving result to {result_path}")
-        ml_model.save(result_path)  # type: ignore
+        quantized_model.save(result_path)  # type: ignore
 
     return 1

@@ -20,6 +20,13 @@ def get_arguments() -> argparse.Namespace:
         default="./weights",
         help="Directory of model weight.",
     )
+    parser.add_argument(
+        "-O",
+        "--optimize",
+        dest="need_optimize",
+        action="store_true",
+        help="Optimize result if flag is set.",
+    )
     return parser.parse_args()
 
 
@@ -35,6 +42,7 @@ def main():
             else "cpu"
         ),
         weight_dir=args.weight_dir,
+        need_optimize=args.need_optimize,
     )
 
     runner.run(runtime_config=runtime_conf)

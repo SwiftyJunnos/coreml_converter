@@ -55,15 +55,10 @@ def run(runtime_config: RuntimeConfig) -> int:
 
         # Convert weight-summed model to MLProgram type.
         ml_model, ext = converter.convert(weighted_model, **example_inputs)
-        if ml_model is None:
-            _LOGGER.error(
-                f"Failed to convert {model.value} to CoreML compatible model."
-            )
-            continue
 
         # Optimize for mobile environment.
         if runtime_config.need_optimize:
-            quantized_model = quantize(ml_model)
+            ml_model = quantize(ml_model)
 
         # Save converted model as ".mlpackage" file.
         model_filename = (
@@ -71,6 +66,6 @@ def run(runtime_config: RuntimeConfig) -> int:
         )
         result_path = os.path.join(RESULT_DIR, model_filename) + ext
         _LOGGER.info(f"Saving result to {result_path}")
-        quantized_model.save(result_path)  # type: ignore
+        ml_model.save(result_path)  # type: ignore
 
     return 1

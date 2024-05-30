@@ -20,13 +20,12 @@ class Converter:
 
     def convert(
         self, model: nn.Module, **example_inputs: torch.Tensor
-    ) -> tuple[Optional[Program | MLModel], str]:
+    ) -> tuple[MLModel, str]:
         model.eval()
 
         _example_values = example_inputs.values()
         _LOGGER.info(f"Tracing: {_example_values}")
         traced_model = jit.trace(model, tuple(_example_values))
-        _LOGGER.info("Tracing complete!")
 
         _LOGGER.info("Start converting...")
         converted_model = ct.convert(
@@ -36,10 +35,10 @@ class Converter:
                 for m in example_inputs.items()
             ],
             minimum_deployment_target=ct.target.iOS15,
+            convert_to="mlprogram",
         )
 
-        if isinstance(converted_model, Program) or isinstance(converted_model, MLModel):
-            _LOGGER.info('Success to convert as ".mlpackage".')
+        if isinstance(converted_model, MLModel):
             return (converted_model, _MLPACKAGE_EXTENSION)
         else:
-            return (None, "")
+            raise ValueError("Format of converting output is not a `MLModel`.")

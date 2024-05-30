@@ -21,9 +21,9 @@ converter = { path = ".", editable = true }
 linux = "5.4.0"
 
 [tool.pixi.tasks]
-convert = "python -m coreml_converter"
+convert = "cd src; python -m coreml_converter"
 c = { depends-on = ["convert"] }
-convert-with-optimization = "python -m coreml_converter -O"
+convert-with-optimization = "cd src; python -m coreml_converter -O"
 co = { depends-on = ["convert-with-optimization"] }
 
 [tool.pixi.dependencies]
@@ -33,6 +33,5 @@ transformers = ">=4.41.1,<4.42"
 tqdm = ">=4.66.4,<4.67"
 
 [tool.setuptools.packages.find]
-where = ["."]
+where = ["./src"]
 include = ["coreml_converter"]
-exclude = ["weights"]

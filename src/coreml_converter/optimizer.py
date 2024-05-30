@@ -1,5 +1,4 @@
 import coremltools.optimize.coreml as cto
-from coremltools.converters.mil import Program
 from coremltools.models.model import MLModel
 
 

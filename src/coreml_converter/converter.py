@@ -1,12 +1,10 @@
 import logging
 import numpy as np
-from typing import Optional
 
 import coremltools as ct
 import torch
 import torch.jit as jit
 import torch.nn as nn
-from coremltools.converters.mil import Program
 from coremltools.models.model import MLModel
 
 from .const import _MLPACKAGE_EXTENSION

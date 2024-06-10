@@ -17,7 +17,7 @@ def get_arguments() -> argparse.Namespace:
         "--weight",
         dest="weight_dir",
         type=str,
-        default="./weights",
+        default="../weights",
         help="Directory of model weight.",
     )
     parser.add_argument(

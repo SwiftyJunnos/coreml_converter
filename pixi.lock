@@ -1009,7 +1009,7 @@ packages:
   name: coreml-converter
   version: 0.1.0
   path: .
-  sha256: 0670c344024e57a366a599560109cd8ac687159aa0845637b8d982211d4f4352
+  sha256: 01d34dfa6ee2614361612a2a326ed5731602210eb939670170514de2558bbc1c
   requires_python: '>=3.11'
   editable: true
 - kind: conda

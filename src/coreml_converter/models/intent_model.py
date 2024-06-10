@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 from transformers import RobertaModel
 
@@ -11,7 +12,7 @@ class IntentModel(nn.Module):
         self.classifier = nn.Linear(3 * config.hidden_size, num_labels)
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, input_ids, attention_mask):
+    def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor):
         # input_ids.shape: (batch size, 1536)
         batch_size = input_ids.size(0)
 

@@ -25,6 +25,7 @@ convert = "cd src; python -m coreml_converter"
 c = { depends-on = ["convert"] }
 convert-with-optimization = "cd src; python -m coreml_converter -O"
 co = { depends-on = ["convert-with-optimization"] }
+r = "cd src; python -m coreml_runner"
 
 [tool.pixi.dependencies]
 python = "<=3.11.9"

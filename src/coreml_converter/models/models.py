@@ -1,10 +1,20 @@
+import os
 from enum import StrEnum
 
+import coremltools as ct
 import torch
 import torch.nn as nn
+from coremltools.models import MLModel
 from transformers import RobertaConfig, RobertaTokenizerFast
 
-from .const import G_STEP_NUM_LABEL, KEYWORD_NUM_LABEL, INTENT_NUM_LABEL, MODEL_URL
+from .const import (
+    G_STEP_NUM_LABEL,
+    KEYWORD_NUM_LABEL,
+    INTENT_NUM_LABEL,
+    MODEL_URL,
+    RESULT_DIR,
+    _MLPACKAGE_EXTENSION,
+)
 from .available_models import IntentModel, KeywordModel, GStepModel
 
 
@@ -43,22 +53,22 @@ class Models(StrEnum):
         if self is Models.INTENT:
             _input_size = (input_size[0], input_size[1] * 3)
             return {
-                "input_ids": torch.rand(_input_size).to(torch.int64),
-                "attention_mask": torch.zeros(_input_size).to(torch.int64),
+                "input_ids": torch.ones(_input_size).to(torch.int32),
+                "attention_mask": torch.zeros(_input_size).to(torch.int32),
             }
         elif self == Models.KEYWORD:
             return {
-                "input_ids": torch.rand(input_size).to(torch.int64),
-                "attention_mask": torch.zeros(input_size).to(torch.int64),
+                "input_ids": torch.ones(input_size).to(torch.int32),
+                "attention_mask": torch.zeros(input_size).to(torch.int32),
             }
         elif self == Models.GSTEP:
             return {
-                "doc_input_ids": torch.rand(input_size).to(torch.int64),
-                "doc_attention_mask": torch.zeros(input_size).to(torch.int64),
-                "intent_input_ids": torch.rand(input_size).to(torch.int64),
-                "intent_attention_mask": torch.zeros(input_size).to(torch.int64),
-                "keyword_input_ids": torch.rand(input_size).to(torch.int64),
-                "keyword_attention_mask": torch.zeros(input_size).to(torch.int64),
+                "doc_input_ids": torch.ones(input_size).to(torch.int32),
+                "doc_attention_mask": torch.zeros(input_size).to(torch.int32),
+                "intent_input_ids": torch.ones(input_size).to(torch.int32),
+                "intent_attention_mask": torch.zeros(input_size).to(torch.int32),
+                "keyword_input_ids": torch.ones(input_size).to(torch.int32),
+                "keyword_attention_mask": torch.zeros(input_size).to(torch.int32),
             }
         else:
             raise ValueError("Invalid case for enum `Models`.")
@@ -74,3 +84,9 @@ class Models(StrEnum):
             return GStepModel(config, num_labels)
         else:
             raise ValueError("Invalid case for enum `Models`.")
+
+    def load_coreml_package(self) -> MLModel:
+        model_path = os.path.join(
+            RESULT_DIR, "opt_" + self.value + _MLPACKAGE_EXTENSION
+        )
+        return ct.models.MLModel(model_path)
